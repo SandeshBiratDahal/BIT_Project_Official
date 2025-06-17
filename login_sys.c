@@ -1,11 +1,11 @@
 #include<stdio.h>
-#include<string.h>
 
 void user_conf_page();
 void login_page();
 void signup_page();
 
 void user_conf_page(){
+    system("cls");
     printf("----The Game Library----\n\n");
     char options[][30] = {"Log In", "Sign Up"};
     int ch = 0;
@@ -18,7 +18,7 @@ void user_conf_page(){
 
 void signup_page(){
     FILE *fp;
-    fp = fopen("data/credentials/creds.txt", "ab");
+    fp = fopen("data/credentials/creds.txt", "a");
 
     printf("----Sign Up----\n\n");
     char username[30], password[30];
@@ -31,7 +31,10 @@ void signup_page(){
     fprintf(fp, "%s,%s,", username, password);
     fclose(fp);
 
-    printf("Successfully created a new account!!");
+    printf("\nSuccessfully created a new account!!");
+    getch();
+    system("cls");
+    user_conf_page();
 }
 
 void login_page(){
@@ -56,6 +59,11 @@ void login_page(){
         }
     }
 
-    if (!found) printf("\nIncorrect username or password!");
+    if (!found){
+        printf("\nIncorrect username or password!");
+        getch();
+        user_conf_page();
+    }
     fclose(fp);
+    
 }
