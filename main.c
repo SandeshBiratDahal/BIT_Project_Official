@@ -7,6 +7,7 @@
 #include "login_sys.c"
 #include "hangman.c"
 #include "rockpaperscissors.c"
+#include "tictactoe.c"
 #include "game_selector.c"
 
 int main(){
