@@ -6,11 +6,14 @@
 #include "utilities.c"
 #include "login_sys.c"
 #include "hangman.c"
+#include "rockpaperscissors.c"
 #include "game_selector.c"
 
 int main(){
     user_conf_page();
     getch();
-    select_game_page();
+    while (1){
+        select_game_page();
+    }
     return 0;
 }

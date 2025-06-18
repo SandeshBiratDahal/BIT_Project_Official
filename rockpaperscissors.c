@@ -1,0 +1,41 @@
+#include <windows.h>
+
+void display_opponent_move(char move[30]){
+    printf("\nYour opponent chose: \n\n");
+    sleep(1);
+    printf("************\n", move);
+    if (move[0] == 'R') printf("*   %s   *\n", move);
+    else if (move[0] == 'S') printf("*%s*\n", move);
+    else if (move[0] == 'P') printf("*  %s   *\n", move);
+    printf("************");
+
+}
+
+int check_winner(char move[30], char opp_move[30]){
+    if (strcmp(move, opp_move) == 0) return 0;
+    if (move[0] == 'R' && opp_move[0] == 'P') return -1;
+    else if (move[0] == 'R' && opp_move[0] == 'S') return 1;
+    else if (move[0] == 'S' && opp_move[0] == 'R') return -1;
+    else if (move[0] == 'S' && opp_move[0] == 'P') return 1;
+    else if (move[0] == 'P' && opp_move[0] == 'S') return -1;
+    else if (move[0] == 'P' && opp_move[0] == 'R') return 1;
+}
+
+void rockpaperscissors(){
+    srand(time(0));
+    system("cls");
+    printf("----Rock-Paper-Scissors----\n\n");
+    char options[][30] = {"ROCK", "PAPER", "SCISSORS"}, opponent_move[30], my_move[30];
+    int ch = create_menu_traditional(3, options, 2, "Enter your choice: "), random_move = rand() % 3, winner;
+
+    strcpy(opponent_move, options[random_move]);
+    strcpy(opponent_move, options[ch]);
+    display_opponent_move(opponent_move);
+
+    winner = check_winner(my_move, opponent_move);
+    printf("\n\n");
+    if (winner == 0) printf("It's a draw!!");
+    else if (winner == -1) printf("You lose!!");
+    else printf("You win!!");
+    getch();
+}
