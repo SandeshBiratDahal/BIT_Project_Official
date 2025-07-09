@@ -13,8 +13,6 @@
 int main(){
     user_conf_page();
     getch();
-    while (1){
-        select_game_page();
-    }
+    while (1) select_game_page();
     return 0;
 }
