@@ -1,8 +1,10 @@
 void print_board(char board[]);
 int get_user_input(char board[]);
 int check_winner_tic_tac_toe(char board[]);
-int get_ai_input(char board[], int difficulty);
+int get_ai_input(char board[], int difficulty, char play_as);
 void display_winner(char board[], int win_id);
+int easy_ai(char board[], char play_as);
+int normal_ai(char board[], char play_as);
 
 void tictactoe(){
     system("cls");
@@ -79,7 +81,7 @@ void tictactoe(){
                         return;
                     }
 
-                    opp_move = get_ai_input(board, difficulty);
+                    opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
 
                     win_id = check_winner_tic_tac_toe(board);
@@ -89,7 +91,7 @@ void tictactoe(){
                     }
                 }
                 else {
-                    opp_move = get_ai_input(board, difficulty);
+                    opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
 
                     win_id = check_winner_tic_tac_toe(board);
@@ -111,8 +113,6 @@ void tictactoe(){
                     }
                 }
                 turn += 2;
-                printf("%d %d", user_move, opp_move);
-                getch();
             }
         }
     }
@@ -159,20 +159,10 @@ int check_winner_tic_tac_toe(char board[]){
     return 0;
 }
 
-int get_ai_input(char board[], int difficulty) {
-    int move;
-    if (difficulty == 0) {
-        int remaining_tiles[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1}, index = 0;
-        for (int i = 0; i < 9; i++) {
-            if (board[i] == '.') {
-                remaining_tiles[index] = i;
-                index++;
-            }
-        }
-        srand(time(0));
-        move = remaining_tiles[rand() % index];
-        return move;
-    }
+int get_ai_input(char board[], int difficulty, char play_as) {
+    if (difficulty == 0) return easy_ai(board, play_as);
+
+    else if (difficulty == 1) return normal_ai(board, play_as);
 }
 
 void display_winner(char board[], int win_id) {
@@ -186,4 +176,71 @@ void display_winner(char board[], int win_id) {
 
     printf("\n%c is the winner!", winner);
     getch();
+}
+
+int easy_ai(char board[], char play_as) {
+    int move;
+    int remaining_tiles[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1}, index = 0;
+        for (int i = 0; i < 9; i++) {
+            if (board[i] == '.') {
+                remaining_tiles[index] = i;
+                index++;
+            }
+        }
+        srand(time(0));
+        move = remaining_tiles[rand() % index];
+        return move;
+}
+
+int normal_ai(char board[], char play_as) {
+    int winning_conditions[][3] = {
+        {0, 1, 2},
+        {0, 3, 6},
+        {0, 4, 8},
+        {1, 4, 7},
+        {2, 5, 8},
+        {2, 4, 6},
+        {3, 4, 5},
+        {6, 7, 8},
+        {3, 4, 5}
+    }, best_move = -1, i, max_no_of_placed_move = 0, x_count = 0, o_count = 0, dot_count = 0, dot_pos = -1;
+    char combination_string[3];
+
+    for (i = 0; i < 9; i++) {
+        x_count = 0; o_count = 0; dot_count = 0;
+        for (int j = 0; j < 3; j++) {
+            combination_string[j] = board[winning_conditions[i][j]];
+            if (combination_string[j] == 'X') x_count++;
+            else if (combination_string[j] == 'O') o_count++;
+            else {
+                dot_count++;
+                dot_pos = j;
+            }
+        }
+
+        switch (play_as)
+        {
+            case 'X':
+                if (!o_count) {
+                    if (max_no_of_placed_move < x_count) {
+                        max_no_of_placed_move = x_count;
+                        best_move = winning_conditions[i][dot_pos];
+                    }
+                }
+                break;
+            
+            case 'O':
+                if (!x_count) {
+                    if (max_no_of_placed_move < o_count) {
+                        max_no_of_placed_move = o_count;
+                        best_move = winning_conditions[i][dot_pos];
+                    }
+                }
+                break;
+        }
+            
+    }
+
+    if (best_move < 0) return easy_ai(board, play_as);
+    return best_move;
 }
