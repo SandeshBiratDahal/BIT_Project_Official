@@ -5,7 +5,7 @@ void display_opponent_move(char move[30]){
     sleep(1);
     printf("************\n", move);
     if (move[0] == 'R') printf("*   %s   *\n", move);
-    else if (move[0] == 'S') printf("*%s*\n", move);
+    else if (move[0] == 'S') printf("*%s *\n", move);
     else if (move[0] == 'P') printf("*  %s   *\n", move);
     printf("************");
 
