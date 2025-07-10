@@ -4,7 +4,7 @@ int check_winner_tic_tac_toe(char board[]);
 int get_ai_input(char board[], int difficulty, char play_as);
 void display_winner(char board[], int win_id);
 int easy_ai(char board[], char play_as);
-int normal_ai(char board[], char play_as);
+int normal_ai(char board[], char play_as, int hard_ai);
 
 void tictactoe(){
     system("cls");
@@ -162,7 +162,9 @@ int check_winner_tic_tac_toe(char board[]){
 int get_ai_input(char board[], int difficulty, char play_as) {
     if (difficulty == 0) return easy_ai(board, play_as);
 
-    else if (difficulty == 1) return normal_ai(board, play_as);
+    else if (difficulty == 1) return normal_ai(board, play_as, 0);
+
+    else return normal_ai(board, play_as, 1);
 }
 
 void display_winner(char board[], int win_id) {
@@ -181,18 +183,18 @@ void display_winner(char board[], int win_id) {
 int easy_ai(char board[], char play_as) {
     int move;
     int remaining_tiles[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1}, index = 0;
-        for (int i = 0; i < 9; i++) {
-            if (board[i] == '.') {
-                remaining_tiles[index] = i;
-                index++;
-            }
+    for (int i = 0; i < 9; i++) {
+        if (board[i] == '.') {
+            remaining_tiles[index] = i;
+            index++;
         }
-        srand(time(0));
-        move = remaining_tiles[rand() % index];
-        return move;
+    }
+    srand(time(0));
+    move = remaining_tiles[rand() % index];
+    return move;
 }
 
-int normal_ai(char board[], char play_as) {
+int normal_ai(char board[], char play_as, int hard_ai) {
     int winning_conditions[][3] = {
         {0, 1, 2},
         {0, 3, 6},
@@ -204,14 +206,14 @@ int normal_ai(char board[], char play_as) {
         {6, 7, 8},
         {3, 4, 5}
     }, best_move = -1, i, max_no_of_placed_move = 0, x_count = 0, o_count = 0, dot_count = 0, dot_pos = -1;
-    char combination_string[3];
+    char current_tile_move;
 
     for (i = 0; i < 9; i++) {
         x_count = 0; o_count = 0; dot_count = 0;
         for (int j = 0; j < 3; j++) {
-            combination_string[j] = board[winning_conditions[i][j]];
-            if (combination_string[j] == 'X') x_count++;
-            else if (combination_string[j] == 'O') o_count++;
+            current_tile_move = board[winning_conditions[i][j]];
+            if (current_tile_move == 'X') x_count++;
+            else if (current_tile_move == 'O') o_count++;
             else {
                 dot_count++;
                 dot_pos = j;
@@ -225,8 +227,11 @@ int normal_ai(char board[], char play_as) {
                     if (max_no_of_placed_move < x_count) {
                         max_no_of_placed_move = x_count;
                         best_move = winning_conditions[i][dot_pos];
+
+                        if (dot_count == 1) return winning_conditions[i][dot_pos];
                     }
                 }
+                if (o_count == 2 && hard_ai && dot_count) return winning_conditions[i][dot_pos];
                 break;
             
             case 'O':
@@ -234,13 +239,15 @@ int normal_ai(char board[], char play_as) {
                     if (max_no_of_placed_move < o_count) {
                         max_no_of_placed_move = o_count;
                         best_move = winning_conditions[i][dot_pos];
+
+                        if (dot_count == 1) return winning_conditions[i][dot_pos];
                     }
                 }
+                if (x_count == 2 && hard_ai && dot_count) return winning_conditions[i][dot_pos];
                 break;
         }
             
     }
-
     if (best_move < 0) return easy_ai(board, play_as);
     return best_move;
 }
