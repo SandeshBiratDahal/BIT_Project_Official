@@ -13,11 +13,19 @@ void edit_file(char file_path[100], int index, int increase_by, int set_to){
         tracked_data[i] = data;
         i++;
     }
-    for (int j = 0; j < i; j++) {
-        printf("%d\n", tracked_data[j]);
-    }
     fclose(fp);
     fp = fopen(file_path, "w");
     for (int j = 0; j < i; j++) fprintf(fp, "%d,", tracked_data[j]);
     fclose(fp);
+}
+
+int fetch(char file_path[100], int index) {
+    FILE *fp;
+    fp = fopen(file_path, "r");
+    int i = 0, data;
+    while (fscanf(fp, "%d,", &data) != EOF) {
+        if (index == i) return data;
+        i++;
+    }
+    return -1;
 }

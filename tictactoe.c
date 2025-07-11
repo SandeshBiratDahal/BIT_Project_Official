@@ -8,6 +8,8 @@ int easy_ai(char board[], char play_as);
 int normal_ai(char board[], char play_as, int hard_ai);
 void edit_records(int difficulty, int status);
 
+char stats_file_path[100];
+
 void tictactoe(){
     system("cls");
     printf("----Games List----\n\n");
