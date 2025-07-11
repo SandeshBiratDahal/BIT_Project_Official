@@ -1,10 +1,12 @@
 void print_board(char board[]);
-int get_user_input(char board[]);
+int get_user_input(char board[], int turn);
 int check_winner_tic_tac_toe(char board[]);
 int get_ai_input(char board[], int difficulty, char play_as);
 void display_winner(char board[], int win_id);
+void display_draw(char board[]);
 int easy_ai(char board[], char play_as);
 int normal_ai(char board[], char play_as, int hard_ai);
+void edit_records(int difficulty, int status);
 
 void tictactoe(){
     system("cls");
@@ -14,8 +16,7 @@ void tictactoe(){
 
     srand(time(0));
     int turn = 0, player = rand() % 2, user_move = -1, win_id = 0, opp_move = -1;
-    char board[9] = ".........";
-    char winner;
+    char board[9] = ".........", winner;
 
     while (1){
         
@@ -23,13 +24,17 @@ void tictactoe(){
             system("cls");
             printf("----Tic-Tac-Toe----\n\n\n");
             print_board(board);
-            user_move = get_user_input(board);
+            user_move = get_user_input(board, turn);
             board[user_move] = turn % 2? 'O': 'X';
             turn++;
 
             win_id = check_winner_tic_tac_toe(board);
             if (win_id) {
                 display_winner(board, win_id);
+                return;
+            }
+            else if (turn >= 9) {
+                display_draw(board);
                 return;
             }
         }
@@ -72,50 +77,92 @@ void tictactoe(){
                 printf("---Tic-Tac-Toe---\n\n\n");
                 print_board(board);
                 if (player == 1) {
-                    user_move = get_user_input(board);
+                    user_move = get_user_input(board, turn);
                     board[user_move] = player_symbol;
-
+                    turn++;
                     win_id = check_winner_tic_tac_toe(board);
                     if (win_id) {
                         display_winner(board, win_id);
+                        edit_records(difficulty, 1);
+                        return;
+                    }
+                    else if (turn >= 9) {
+                        display_draw(board);
+                        edit_records(difficulty, 0);
                         return;
                     }
 
                     opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
-
+                    turn++;
                     win_id = check_winner_tic_tac_toe(board);
                     if (win_id) {
                         display_winner(board, win_id);
+                        edit_records(difficulty, -1);
+                        return;
+                    }
+                    else if (turn >= 9) {
+                        display_draw(board);
+                        edit_records(difficulty, 0);
                         return;
                     }
                 }
                 else {
                     opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
-
+                    turn++;
                     win_id = check_winner_tic_tac_toe(board);
                     if (win_id) {
                         display_winner(board, win_id);
+                        edit_records(difficulty, -1);
+                        return;
+                    }
+                    else if (turn >= 9) {
+                        display_draw(board);
+                        edit_records(difficulty, 0);
                         return;
                     }
 
                     system("cls");
                     printf("---Tic-Tac-Toe---\n\n\n");
                     print_board(board);
-                    user_move = get_user_input(board);
+                    user_move = get_user_input(board, turn);
                     board[user_move] = player_symbol;
-
+                    turn++;
                     win_id = check_winner_tic_tac_toe(board);
                     if (win_id) {
                         display_winner(board, win_id);
+                        edit_records(difficulty, 1);
+                        return;
+                    }
+                    else if (turn >= 9) {
+                        display_draw(board);
+                        edit_records(difficulty, 0);
                         return;
                     }
                 }
-                turn += 2;
             }
         }
     }
+}
+
+void edit_records(int difficulty, int status) {
+    int start_index;
+    if (status == 1) start_index = 5;
+    else if (status == -1) start_index = 6;
+    else start_index = 7;
+
+    switch (difficulty) {
+            case 0:
+                edit_file(stats_file_path, start_index, 1, 0);
+                break;
+            case 1:
+                edit_file(stats_file_path, start_index + 3, 1, 0);
+                break;
+            case 2:
+                edit_file(stats_file_path, start_index + 6, 1, 0);
+                break;
+        }
 }
 
 void print_board(char board[]){
@@ -124,11 +171,12 @@ void print_board(char board[]){
     printf("%c              %c             %c\n", board[6], board[7], board[8]);
 }
 
-int get_user_input(char board[]){
+int get_user_input(char board[], int turn){
     int choice = -1;
+    char symbol = turn % 2? 'O': 'X';
     printf("\n");
     while (choice < 1 || choice > 9){
-        printf("Enter your move[1-9]: ");
+        printf("Enter %c's move[1-9]: ", symbol);
         scanf("%d", &choice);
         if (board[choice - 1] == 'X' || board[choice - 1] == 'O') choice = -1;
     }
@@ -177,6 +225,14 @@ void display_winner(char board[], int win_id) {
     else winner = 'X';
 
     printf("\n%c is the winner!", winner);
+    getch();
+}
+
+void display_draw(char board[]) {
+    system("cls");
+    printf("----Tic-Tac-Toe----\n\n\n");
+    print_board(board);
+    printf("\nIt's a draw!");
     getch();
 }
 

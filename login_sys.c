@@ -1,5 +1,7 @@
 #include<stdio.h>
 
+char current_username[30], stats_file_path[100];
+
 void user_conf_page();
 void login_page();
 void signup_page();
@@ -31,6 +33,16 @@ void signup_page(){
     fprintf(fp, "%s,%s,", username, password);
     fclose(fp);
 
+    char extention[10] = ".txt", path[50] = "data/stats/";
+    strcpy(stats_file_path, strcat(path, strcat(username, extention)));
+    fp = fopen(stats_file_path, "w");
+    fprintf(
+        fp,
+        "0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
+    ); //Hangman win/lose, RockPaperScissors win/lose/draw, Tictactoe easy/normal/hard win/lose/draw
+
+    fclose(fp);
+
     printf("\nSuccessfully created a new account!!");
     getch();
     system("cls");
@@ -54,6 +66,9 @@ void login_page(){
     while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
         if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
             printf("\nSuccessfully logged in as %s!!", nusername);
+            strcpy(current_username, nusername);
+            char extention[10] = ".txt", path[50] = "data/stats/";
+            strcpy(stats_file_path, strcat(path, strcat(nusername, extention)));
             found = 1;
             break;
         }

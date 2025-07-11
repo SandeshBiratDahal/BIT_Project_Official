@@ -2,7 +2,7 @@
 
 void display_opponent_move(char move[30]){
     printf("\nYour opponent chose: \n\n");
-    sleep(1);
+    Sleep(1);
     printf("************\n", move);
     if (move[0] == 'R') printf("*   %s   *\n", move);
     else if (move[0] == 'S') printf("*%s *\n", move);
@@ -34,8 +34,17 @@ void rockpaperscissors(){
 
     winner = check_winner(my_move, opponent_move);
     printf("\n\n");
-    if (winner == 0) printf("It's a draw!!");
-    else if (winner == -1) printf("You lose!!");
-    else printf("You win!!");
+    if (winner == 0) {
+        printf("It's a draw!!");
+        edit_file(stats_file_path, 4, 1, 0);
+    }
+    else if (winner == -1) {
+        printf("You lose!!");
+        edit_file(stats_file_path, 3, 1, 0);
+    }
+    else {
+        printf("You win!!");
+        edit_file(stats_file_path, 2, 1, 0);
+    }
     getch();
 }

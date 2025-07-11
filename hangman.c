@@ -47,7 +47,19 @@ void hangman(){
             successfully_guessed = compare_words(current_word, guessed_word, word_length);
         }
 
-        if (!number_of_attempts || successfully_guessed){
+        if (!number_of_attempts) {
+            display(current_word, guessed_word, word_length, number_of_attempts);
+            printf("You lose! The correct word was '%s'.", current_word);
+            getch();
+            edit_file(stats_file_path, 1, 1, 0);
+            break;
+        }
+
+        if (successfully_guessed) {
+            display(current_word, guessed_word, word_length, number_of_attempts);
+            printf("You successfully guessed the word!");
+            getch();
+            edit_file(stats_file_path, 0, 1, 0);
             break;
         }
     }
