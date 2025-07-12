@@ -5,11 +5,12 @@ void view_stats();
 
 void stats_view_selector() {
     title("Main Menu", 2);
-    char options[][30] = {"Play Games", "View Stats"};
-    int ch = create_menu_traditional(2, options, 1, "Enter a choice: ");
+    char options[][30] = {"Play Games", "View Stats", "Go Back"};
+    int ch = create_menu_traditional(3, options, 1, "Enter a choice: ");
 
     if (ch == 0) return;
     else if (ch == 1) view_stats();
+    else if (ch == 2) user_conf_page();
 }
 
 void view_stats() {

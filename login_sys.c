@@ -33,9 +33,17 @@ void signup_page(){
     printf("Choose a password: ");
     scanf("%s", password);
 
+    for (int i = 0; username[i] != '\0'; i++) {
+        if (username[i] == ',') {
+            printf("\nUsername can not contain the character ','!");
+            getch();
+            user_conf_page();
+        }
+    }
+
     while (fscanf(np, "%29[^,],%29[^,],", nusername, npassword) != EOF){
         if (strcmp(nusername, username) == 0) {
-            printf("Username already exists!");
+            printf("\nUsername already exists!");
             getch();
             user_conf_page();
             return;
@@ -99,8 +107,8 @@ void login_page(){
 
 void edit_page() {
     title("Account Editor", 2);
-    char options[][30] = {"Change Username", "Change Password", "Delete Account"};
-    int ch = create_menu_traditional(3, options, 1, "Enter a choice: ");
+    char options[][30] = {"Change Username", "Change Password", "Delete Account", "Go Back"};
+    int ch = create_menu_traditional(4, options, 1, "Enter a choice: ");
 
     if (ch == 0) {
         title("Change Username", 2);
@@ -246,6 +254,7 @@ void edit_page() {
         }
         if (!found) printf("\nIncorrect username or password!");
     }
+    else if (ch == 3) user_conf_page();
     getch();
     user_conf_page();
 }

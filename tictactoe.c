@@ -7,13 +7,16 @@ void display_draw(char board[]);
 int easy_ai(char board[], char play_as);
 int normal_ai(char board[], char play_as, int hard_ai);
 void edit_records(int difficulty, int status);
+void select_game_page();
 
 char stats_file_path[100];
 
 void tictactoe(){
     title("Games List", 2);
-    char options[][30] = {"Vs Computer", "Vs Human"};
-    int ch = create_menu_traditional(2, options, 1, "Select an option: ");
+    char options[][30] = {"Vs Computer", "Vs Human", "Go Back"};
+    int ch = create_menu_traditional(3, options, 1, "Select an option: ");
+
+    if (ch == 2) select_game_page();
 
     srand(time(0));
     int turn = 0, player = rand() % 2, user_move = -1, win_id = 0, opp_move = -1;

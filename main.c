@@ -22,6 +22,5 @@ int main(){
 
 /*
 TODO: 
-1. Edit Password/username. Delete account.
 2. Check for illegal symbols in username
 */
