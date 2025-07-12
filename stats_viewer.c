@@ -4,8 +4,7 @@ void stats_view_selector();
 void view_stats();
 
 void stats_view_selector() {
-    system("cls");
-    printf("----Main Menu----\n\n");
+    title("Main Menu", 2);
     char options[][30] = {"Play Games", "View Stats"};
     int ch = create_menu_traditional(2, options, 1, "Enter a choice: ");
 

@@ -22,11 +22,5 @@ int main(){
 
 /*
 TODO: 
-1. Improve the game ending screen like adding texts for draw in tictactoe, showing the word after losing in hangman etc.
-2. Add play again? feature in each game.
-3. Add a "Go Back" and "Quit" option to every menu.
-4. Add a separate menu to view the win/lose/draw count and win percentages.
-5. Improve the user login system like checking if the username already exists and adding password hints.
-6. Small Improvements like:
-    Adding a small delay for thinking AI
+1. Edit Password/username. Delete account.
 */

@@ -1,6 +1,7 @@
 int create_menu_traditional(
     int number_of_options, char options[][30], int spacing, char query[50]
 );
+void title(char text[50], int spacing);
 
 int create_menu_traditional(int number_of_options, char options[][30], int spacing, char query[50]){
     int i, j, choice = 0;
@@ -14,4 +15,10 @@ int create_menu_traditional(int number_of_options, char options[][30], int spaci
         scanf("%d", &choice);
     }
     return choice - 1;
+}
+
+void title(char text[50], int spacing) {
+    system("cls");
+    printf("----%s----", text);
+    for (int i = 0; i < spacing; i++) printf("\n");
 }

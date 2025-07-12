@@ -67,11 +67,8 @@ void hangman(){
 }
 
 void display(char current_word[], char guessed_word[], int word_length, int number_of_attempts){
-    system("cls");
-    printf("----Hangman----\n\n\n");
-
+    title("Hangman", 3);
     int i;
-    
     for (i = 0; i < word_length; i++) printf("%c  ", guessed_word[i]);
     printf("\t\tAttempts Left: %d\n\n", number_of_attempts);
 }

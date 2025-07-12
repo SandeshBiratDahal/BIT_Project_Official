@@ -23,8 +23,7 @@ int check_winner(char move[30], char opp_move[30]){
 
 void rockpaperscissors(){
     srand(time(0));
-    system("cls");
-    printf("----Rock-Paper-Scissors----\n\n");
+    title("Rock-Paper-Scissors", 2);
     char options[][30] = {"ROCK", "PAPER", "SCISSORS"}, opponent_move[30], my_move[30];
     int ch = create_menu_traditional(3, options, 2, "Enter your choice: "), random_move = rand() % 3, winner;
 

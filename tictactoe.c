@@ -11,8 +11,7 @@ void edit_records(int difficulty, int status);
 char stats_file_path[100];
 
 void tictactoe(){
-    system("cls");
-    printf("----Games List----\n\n");
+    title("Games List", 2);
     char options[][30] = {"Vs Computer", "Vs Human"};
     int ch = create_menu_traditional(2, options, 1, "Select an option: ");
 
@@ -23,8 +22,7 @@ void tictactoe(){
     while (1){
         
         if (ch) {
-            system("cls");
-            printf("----Tic-Tac-Toe----\n\n\n");
+            title("Tic-Tac-Toe", 3);
             print_board(board);
             user_move = get_user_input(board, turn);
             board[user_move] = turn % 2? 'O': 'X';
@@ -43,8 +41,7 @@ void tictactoe(){
         else {
             int player = 0;
             char player_symbol = 'A', opp_symbol = 'A';
-            system("cls");
-            printf("---Play As---\n\n");
+            title("Play As", 2);
             char options[][30] = {"Random", "Play as X", "Play as O"};
             int choice = create_menu_traditional(3, options, 1, "Enter a choice: "), difficulty = 0;
 
@@ -68,15 +65,13 @@ void tictactoe(){
             printf("You are playing as %c!", player_symbol);
             getch();
 
-            system("cls");
-            printf("---Difficulty Level---\n\n");
+            title("Difficulty Level", 2);
             char options1[][30] = {"Easy", "Normal", "Hard"};
             difficulty = create_menu_traditional(3, options1, 1, "Enter a choice: ");
 
             turn = 0;
             while (1) {
-                system("cls");
-                printf("---Tic-Tac-Toe---\n\n\n");
+                title("Tic-Tac-Toe", 3);
                 print_board(board);
                 if (player == 1) {
                     user_move = get_user_input(board, turn);
@@ -125,8 +120,7 @@ void tictactoe(){
                         return;
                     }
 
-                    system("cls");
-                    printf("---Tic-Tac-Toe---\n\n\n");
+                    title("Tic-Tac-Toe", 3);
                     print_board(board);
                     user_move = get_user_input(board, turn);
                     board[user_move] = player_symbol;
@@ -155,16 +149,16 @@ void edit_records(int difficulty, int status) {
     else start_index = 7;
 
     switch (difficulty) {
-            case 0:
-                edit_file(stats_file_path, start_index, 1, 0);
-                break;
-            case 1:
-                edit_file(stats_file_path, start_index + 3, 1, 0);
-                break;
-            case 2:
-                edit_file(stats_file_path, start_index + 6, 1, 0);
-                break;
-        }
+        case 0:
+            edit_file(stats_file_path, start_index, 1, 0);
+            break;
+        case 1:
+            edit_file(stats_file_path, start_index + 3, 1, 0);
+            break;
+        case 2:
+            edit_file(stats_file_path, start_index + 6, 1, 0);
+            break;
+    }
 }
 
 void print_board(char board[]){
@@ -219,8 +213,7 @@ int get_ai_input(char board[], int difficulty, char play_as) {
 
 void display_winner(char board[], int win_id) {
     char winner;
-    system("cls");
-    printf("----Tic-Tac-Toe----\n\n\n");
+    title("Tic-Tac-Toe", 3);
     print_board(board);
 
     if (win_id == -1) winner = 'O';
@@ -231,8 +224,7 @@ void display_winner(char board[], int win_id) {
 }
 
 void display_draw(char board[]) {
-    system("cls");
-    printf("----Tic-Tac-Toe----\n\n\n");
+    title("Tic-Tac-Toe", 3);
     print_board(board);
     printf("\nIt's a draw!");
     getch();
