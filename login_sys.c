@@ -48,7 +48,7 @@ void signup_page(){
         }
     }
 
-    while (fscanf(np, "%29[^,],%29[^,],", nusername, npassword) != EOF){
+    while (fscanf(np, "%30[^,],%30[^,],", nusername, npassword) != EOF){
         if (strcmp(nusername, username) == 0) {
             printf("\nUsername already exists!");
             getch();
@@ -91,7 +91,7 @@ void login_page(){
 
     int found = 0;
 
-    while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
+    while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
         if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
             printf("\nSuccessfully logged in as %s!!", nusername);
             strcpy(current_username, nusername);
@@ -129,14 +129,14 @@ void edit_page() {
         scanf("%s", password);
 
         fp = fopen("data/credentials/creds.bin", "rb");
-        while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
+        while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
             if (strcmp(nusername, username) == 0 && strcmp(password, npassword) == 0) {
                 fflush(stdin);
                 printf("Enter new username: ");
                 scanf("%s", username);
 
                 fseek(fp, 0, SEEK_SET);
-                while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
+                while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
                     if (strcmp(username, nusername) == 0) {
                         printf("Username already exists!");
                         getch();
@@ -147,7 +147,7 @@ void edit_page() {
                 }
                 fseek(fp, 0, SEEK_SET);
                 np = fopen("data/credentials/temp.bin", "wb");
-                while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
+                while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
                     if (strcmp(nusername, prev_username)) {
                         fprintf(np, "%s,%s,", nusername, npassword);
                     }
@@ -189,7 +189,7 @@ void edit_page() {
         fp = fopen("data/credentials/creds.bin", "rb");
         np = fopen("data/credentials/temp.bin", "wb");
 
-        while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
+        while ((fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF)) {
             if (strcmp(username, nusername) == 0 && strcmp(password, npassword) == 0) {
                 printf("Enter new password: ");
                 scanf("%s", password);
@@ -227,7 +227,7 @@ void edit_page() {
         fp = fopen("data/credentials/creds.bin", "rb");
         np = fopen("data/credentials/temp.bin", "wb");
 
-        while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
+        while ((fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF)) {
             if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
                 found = 1;
                 fflush(stdin);
