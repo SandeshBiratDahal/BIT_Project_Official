@@ -15,12 +15,6 @@
 int main(){
     user_conf_page();
     getch();
-    stats_view_selector();
     while (1) select_game_page();
     return 0;
 }
-
-/*
-TODO: 
-2. Check for illegal symbols in username
-*/

@@ -2,13 +2,14 @@ char current_username[30], stats_file_path[100];
 
 void stats_view_selector();
 void view_stats();
+void select_game_page();
 
 void stats_view_selector() {
     title("Main Menu", 2);
     char options[][30] = {"Play Games", "View Stats", "Go Back"};
     int ch = create_menu_traditional(3, options, 1, "Enter a choice: ");
 
-    if (ch == 0) return;
+    if (ch == 0) select_game_page();
     else if (ch == 1) view_stats();
     else if (ch == 2) user_conf_page();
 }

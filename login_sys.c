@@ -6,6 +6,7 @@ void user_conf_page();
 void login_page();
 void signup_page();
 void edit_page();
+void stats_view_selector();
 
 void user_conf_page(){
     system("cls");
@@ -18,6 +19,7 @@ void user_conf_page(){
     if (ch == 0) login_page();
     else if (ch == 1) signup_page();
     else if (ch == 2) edit_page();
+    stats_view_selector();
 }
 
 void signup_page(){
@@ -102,7 +104,7 @@ void login_page(){
         user_conf_page();
     }
     fclose(fp);
-    
+    getch();
 }
 
 void edit_page() {
