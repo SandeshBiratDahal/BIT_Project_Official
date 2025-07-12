@@ -10,8 +10,7 @@ void edit_page();
 void stats_view_selector();
 
 void user_conf_page(){
-    system("cls");
-    printf("----The Game Library----\n\n");
+    title("The Game Library", 2);
     char options[][30] = {"Log In", "Sign Up", "Edit Account", "Exit"};
     int ch = 0;
     ch = create_menu_traditional(4, options, 1, "Choose an option: ");
@@ -29,8 +28,8 @@ void user_conf_page(){
 
 void signup_page(){
     FILE *fp, *np;
-    fp = fopen("data/credentials/creds.txt", "a");
-    np = fopen("data/credentials/creds.txt", "r");
+    fp = fopen("data/credentials/creds.bin", "ab");
+    np = fopen("data/credentials/creds.bin", "rb");
 
     title("Sign Up", 2);
 
@@ -63,9 +62,9 @@ void signup_page(){
     fprintf(fp, "%s,%s,", username, password);
     fclose(fp);
 
-    char extention[10] = ".txt", path[50] = "data/stats/";
+    char extention[10] = ".bin", path[50] = "data/stats/";
     strcpy(stats_file_path, strcat(path, strcat(username, extention)));
-    fp = fopen(stats_file_path, "w");
+    fp = fopen(stats_file_path, "wb");
     fprintf(
         fp,
         "0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
@@ -81,7 +80,7 @@ void signup_page(){
 
 void login_page(){
     FILE *fp;
-    fp = fopen("data/credentials/creds.txt", "r");
+    fp = fopen("data/credentials/creds.bin", "rb");
     title("Log In", 2);
     char username[30], password[30], nusername[30], npassword[30];
     printf("Enter username: ");
@@ -96,7 +95,7 @@ void login_page(){
         if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
             printf("\nSuccessfully logged in as %s!!", nusername);
             strcpy(current_username, nusername);
-            char extention[10] = ".txt", path[50] = "data/stats/";
+            char extention[10] = ".bin", path[50] = "data/stats/";
             strcpy(stats_file_path, strcat(path, strcat(nusername, extention)));
             found = 1;
             break;
@@ -129,7 +128,7 @@ void edit_page() {
         printf("Enter password: ");
         scanf("%s", password);
 
-        fp = fopen("data/credentials/creds.txt", "r");
+        fp = fopen("data/credentials/creds.bin", "rb");
         while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
             if (strcmp(nusername, username) == 0 && strcmp(password, npassword) == 0) {
                 fflush(stdin);
@@ -147,7 +146,7 @@ void edit_page() {
                     }
                 }
                 fseek(fp, 0, SEEK_SET);
-                np = fopen("data/credentials/temp.txt", "w");
+                np = fopen("data/credentials/temp.bin", "wb");
                 while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
                     if (strcmp(nusername, prev_username)) {
                         fprintf(np, "%s,%s,", nusername, npassword);
@@ -166,9 +165,9 @@ void edit_page() {
 
         if (!found) printf("\nIncorrect username or password!");
         else {
-            remove("data/credentials/creds.txt");
-            rename("data/credentials/temp.txt", "data/credentials/creds.txt");
-            char extention[10] = ".txt", old_name[100] = "data/stats/", new_name[100] = "data/stats/";
+            remove("data/credentials/creds.bin");
+            rename("data/credentials/temp.bin", "data/credentials/creds.bin");
+            char extention[10] = ".bin", old_name[100] = "data/stats/", new_name[100] = "data/stats/";
             strcat(prev_username, extention);
             strcat(username, extention);
             strcat(old_name, prev_username);
@@ -187,8 +186,8 @@ void edit_page() {
         fflush(stdin);
         printf("Enter current password: "); 
         scanf("%s", password);
-        fp = fopen("data/credentials/creds.txt", "r");
-        np = fopen("data/credentials/temp.txt", "w");
+        fp = fopen("data/credentials/creds.bin", "rb");
+        np = fopen("data/credentials/temp.bin", "wb");
 
         while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
             if (strcmp(username, nusername) == 0 && strcmp(password, npassword) == 0) {
@@ -207,8 +206,8 @@ void edit_page() {
 
         if (!found) printf("\nIncorrect username or password!");
         else {
-            remove("data/credentials/creds.txt");
-            rename("data/credentials/temp.txt", "data/credentials/creds.txt");
+            remove("data/credentials/creds.bin");
+            rename("data/credentials/temp.bin", "data/credentials/creds.bin");
             printf("\nSuccessfully changed the password for the account '%s'!", username);
         }
         
@@ -225,8 +224,8 @@ void edit_page() {
         printf("Enter password: ");
         scanf("%s", password);
         
-        fp = fopen("data/credentials/creds.txt", "r");
-        np = fopen("data/credentials/temp.txt", "w");
+        fp = fopen("data/credentials/creds.bin", "rb");
+        np = fopen("data/credentials/temp.bin", "wb");
 
         while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
             if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
@@ -250,11 +249,11 @@ void edit_page() {
         fclose(np);
         fclose(fp);
 
-        remove("data/credentials/creds.txt");
-        rename("data/credentials/temp.txt", "data/credentials/creds.txt");
+        remove("data/credentials/creds.bin");
+        rename("data/credentials/temp.bin", "data/credentials/creds.bin");
 
         if (deleted) {
-            char path[100] = "data/stats/", extention[10] = ".txt";
+            char path[100] = "data/stats/", extention[10] = ".bin";
             strcat(username, extention);
             strcat(path, username);
             remove(path);

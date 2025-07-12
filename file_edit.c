@@ -2,7 +2,7 @@
 
 void edit_file(char file_path[100], int index, int increase_by, int set_to){
     FILE *fp;
-    fp = fopen(file_path, "r");
+    fp = fopen(file_path, "rb");
     int data, i = 0;
     int tracked_data[200];
     while (fscanf(fp, "%d,", &data) != EOF) {
@@ -14,14 +14,14 @@ void edit_file(char file_path[100], int index, int increase_by, int set_to){
         i++;
     }
     fclose(fp);
-    fp = fopen(file_path, "w");
+    fp = fopen(file_path, "wb");
     for (int j = 0; j < i; j++) fprintf(fp, "%d,", tracked_data[j]);
     fclose(fp);
 }
 
 int fetch(char file_path[100], int index) {
     FILE *fp;
-    fp = fopen(file_path, "r");
+    fp = fopen(file_path, "rb");
     int i = 0, data;
     while (fscanf(fp, "%d,", &data) != EOF) {
         if (index == i) return data;
