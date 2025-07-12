@@ -55,4 +55,5 @@ void view_stats() {
 
     printf("Total Games Played: %d", total_games_played);
     getch();
+    stats_view_selector();
 }

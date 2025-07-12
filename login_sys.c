@@ -109,6 +109,7 @@ void edit_page() {
         int found = 0;
         printf("Enter current username: ");
         scanf("%s", username);
+        fflush(stdin);
         strcpy(prev_username, username);
         printf("Enter password: ");
         scanf("%s", password);
@@ -116,7 +117,7 @@ void edit_page() {
         fp = fopen("data/credentials/creds.txt", "r");
         while (fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF) {
             if (strcmp(nusername, username) == 0 && strcmp(password, npassword) == 0) {
-
+                fflush(stdin);
                 printf("Enter new username: ");
                 scanf("%s", username);
 
@@ -148,16 +149,102 @@ void edit_page() {
 
         fclose(fp);
 
-        if (!found) {
-            printf("\nIncorrect username or password!");
-        }
+        if (!found) printf("\nIncorrect username or password!");
         else {
             remove("data/credentials/creds.txt");
             rename("data/credentials/temp.txt", "data/credentials/creds.txt");
+            char extention[10] = ".txt", old_name[100] = "data/stats/", new_name[100] = "data/stats/";
+            strcat(prev_username, extention);
+            strcat(username, extention);
+            strcat(old_name, prev_username);
+            strcat(new_name, username);
+            rename(old_name, new_name);
         }
     }
     else if (ch == 1) {
+        title("Change Password", 2);
+        FILE *fp, *np;
+        char username[30], password[30], nusername[30], npassword[30];
+        int found = 0;
+
+        printf("Enter username: ");
+        scanf("%s", username);
+        fflush(stdin);
+        printf("Enter current password: "); 
+        scanf("%s", password);
+        fp = fopen("data/credentials/creds.txt", "r");
+        np = fopen("data/credentials/temp.txt", "w");
+
+        while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
+            if (strcmp(username, nusername) == 0 && strcmp(password, npassword) == 0) {
+                printf("Enter new password: ");
+                scanf("%s", password);
+                fprintf(np, "%s,%s,", username, password);
+                found = 1;
+            }
+            else {
+                fprintf(np, "%s,%s,", nusername, npassword);
+            }
+        }
+
+        fclose(fp);
+        fclose(np);
+
+        if (!found) printf("\nIncorrect username or password!");
+        else {
+            remove("data/credentials/creds.txt");
+            rename("data/credentials/temp.txt", "data/credentials/creds.txt");
+            printf("\nSuccessfully changed the password for the account '%s'!", username);
+        }
         
+    }
+    else if (ch == 2) {
+        title("Delete Account", 2);
+        FILE *fp, *np;
+
+        char username[30], password[30], nusername[30], npassword[30], conf;
+        int deleted = 0, found = 0;
+        printf("Enter username: ");
+        scanf("%s", username);
+        fflush(stdin);
+        printf("Enter password: ");
+        scanf("%s", password);
+        
+        fp = fopen("data/credentials/creds.txt", "r");
+        np = fopen("data/credentials/temp.txt", "w");
+
+        while ((fscanf(fp, "%29[^,],%29[^,],", nusername, npassword) != EOF)) {
+            if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
+                found = 1;
+                fflush(stdin);
+                printf("Enter 'y' to permanently delete all records of the account '%s': ", username);
+                scanf("%c", &conf);
+                if (conf != 'y') {
+                    fprintf(np, "%s,%s,", nusername, npassword);
+                }
+                else{
+                    deleted = 1;
+                    printf("\nSuccessfully deleted the account '%s'!", username);
+                }
+            }
+            else {
+                fprintf(np, "%s,%s,", nusername, npassword);
+            }
+        }
+
+        fclose(np);
+        fclose(fp);
+
+        remove("data/credentials/creds.txt");
+        rename("data/credentials/temp.txt", "data/credentials/creds.txt");
+
+        if (deleted) {
+            char path[100] = "data/stats/", extention[10] = ".txt";
+            strcat(username, extention);
+            strcat(path, username);
+            remove(path);
+        }
+        if (!found) printf("\nIncorrect username or password!");
     }
     getch();
     user_conf_page();
