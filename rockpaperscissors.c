@@ -2,10 +2,10 @@
 
 void display_opponent_move(char move[30]){
     printf("\nYour opponent chose: \n\n");
-    Sleep(1);
+    Sleep(1000);
     printf("************\n", move);
     if (move[0] == 'R') printf("*   %s   *\n", move);
-    else if (move[0] == 'S') printf("*%s *\n", move);
+    else if (move[0] == 'S') printf("* %s *\n", move);
     else if (move[0] == 'P') printf("*  %s   *\n", move);
     printf("************");
 
@@ -22,13 +22,15 @@ int check_winner(char move[30], char opp_move[30]){
 }
 
 void rockpaperscissors(){
-    srand(time(0));
+    
     title("Rock-Paper-Scissors", 2);
     char options[][30] = {"ROCK", "PAPER", "SCISSORS"}, opponent_move[30], my_move[30];
-    int ch = create_menu_traditional(3, options, 2, "Enter your choice: "), random_move = rand() % 3, winner;
+    int ch = create_menu_traditional(3, options, 2, "Enter your choice: "), winner;
+    srand(time(0));
+    int random_move = rand() % 3;
 
     strcpy(opponent_move, options[random_move]);
-    strcpy(opponent_move, options[ch]);
+    strcpy(my_move, options[ch]);
     display_opponent_move(opponent_move);
 
     winner = check_winner(my_move, opponent_move);
