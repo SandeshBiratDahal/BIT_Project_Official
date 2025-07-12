@@ -6,7 +6,7 @@ void select_game_page();
 
 void stats_view_selector() {
     title("Main Menu", 2);
-    char options[][30] = {"Play Games", "View Stats", "Go Back"};
+    char options[][30] = {"Play Games", "View Stats", "Log Out"};
     int ch = create_menu_traditional(3, options, 1, "Enter a choice: ");
 
     if (ch == 0) select_game_page();

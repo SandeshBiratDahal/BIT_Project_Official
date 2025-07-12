@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 char current_username[30], stats_file_path[100];
 
@@ -11,14 +12,18 @@ void stats_view_selector();
 void user_conf_page(){
     system("cls");
     printf("----The Game Library----\n\n");
-    char options[][30] = {"Log In", "Sign Up", "Edit Account"};
+    char options[][30] = {"Log In", "Sign Up", "Edit Account", "Exit"};
     int ch = 0;
-    ch = create_menu_traditional(3, options, 1, "Choose an option: ");
+    ch = create_menu_traditional(4, options, 1, "Choose an option: ");
     
-    system("cls");
     if (ch == 0) login_page();
     else if (ch == 1) signup_page();
     else if (ch == 2) edit_page();
+    else if (ch == 3) 
+    {
+        printf("Goodbye!");
+        exit(0);
+    }
     stats_view_selector();
 }
 
@@ -27,7 +32,8 @@ void signup_page(){
     fp = fopen("data/credentials/creds.txt", "a");
     np = fopen("data/credentials/creds.txt", "r");
 
-    printf("----Sign Up----\n\n");
+    title("Sign Up", 2);
+
     char username[30], password[30], nusername[30], npassword[30];;
     printf("Choose a username: ");
     scanf("%s", username);
@@ -76,8 +82,7 @@ void signup_page(){
 void login_page(){
     FILE *fp;
     fp = fopen("data/credentials/creds.txt", "r");
-
-    printf("----Log In----\n\n");
+    title("Log In", 2);
     char username[30], password[30], nusername[30], npassword[30];
     printf("Enter username: ");
     scanf("%s", username);
