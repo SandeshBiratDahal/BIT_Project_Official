@@ -8,17 +8,19 @@ void login_page();
 void signup_page();
 void edit_page();
 void stats_view_selector();
+void view_accounts();
 
 void user_conf_page(){
     title("The Game Library", 2);
-    char options[][30] = {"Log In", "Sign Up", "Edit Account", "Exit"};
+    char options[][30] = {"Log In", "Sign Up", "Edit Account", "Saved Accounts", "Exit"};
     int ch = 0;
-    ch = create_menu_traditional(4, options, 1, "Choose an option: ");
+    ch = create_menu_traditional(5, options, 1, "Choose an option: ");
     
     if (ch == 0) login_page();
     else if (ch == 1) signup_page();
     else if (ch == 2) edit_page();
-    else if (ch == 3) 
+    else if (ch == 3) view_accounts();
+    else if (ch == 4) 
     {
         printf("Goodbye!");
         exit(0);
@@ -262,5 +264,21 @@ void edit_page() {
     }
     else if (ch == 3) user_conf_page();
     getch();
+    user_conf_page();
+}
+
+void view_accounts() {
+    title("Saved Accounts", 2);
+    FILE *fp;
+    fp = fopen("data/credentials/creds.bin", "rb");
+    char username[30], password[30];
+    int i = 1;
+    while ((fscanf(fp, "%30[^,],%30[^,],", username, password) != EOF)) {
+        printf("%d. %s\n", i, username);
+        i++;
+    }
+    fclose(fp);
+    getch();
+    fflush(stdin);
     user_conf_page();
 }
