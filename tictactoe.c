@@ -13,9 +13,9 @@ void think(char board[], int time);
 char stats_file_path[100];
 
 void tictactoe(){
-    title("Games List", 2);
-    char options[][30] = {"Vs Computer", "Vs Human", "<- Go Back"};
-    int ch = create_menu_traditional(3, options, 1, "Select an option: ");
+    title("List Of Games", 2);
+    char options[][30] = {"VS AI", "Vs Human", "<- Go Back"};
+    int ch = create_menu_traditional(3, options, 2, "Select an option: ", title_pipe("List Of Games"));
 
     if (ch == 2) select_game_page();
 
@@ -47,7 +47,7 @@ void tictactoe(){
             char player_symbol = 'A', opp_symbol = 'A';
             title("Play As", 2);
             char options[][30] = {"Random", "Play as X", "Play as O"};
-            int choice = create_menu_traditional(3, options, 1, "Enter a choice: "), difficulty = 0;
+            int choice = create_menu_traditional(3, options, 2, "Enter a choice: ", title_pipe("Tic-Tac-Toe")), difficulty = 0;
 
             if (choice == 1) player = 1;
             else if (choice == 2) player = -1;
@@ -71,7 +71,7 @@ void tictactoe(){
 
             title("Difficulty Level", 2);
             char options1[][30] = {"Easy", "Normal", "Hard"};
-            difficulty = create_menu_traditional(3, options1, 1, "Enter a choice: ");
+            difficulty = create_menu_traditional(3, options1, 2, "Enter a choice: ", title_pipe("Difficulty Level"));
 
             turn = 0;
             while (1) {

@@ -1,4 +1,6 @@
 #include <windows.h>
+#include<stdio.h>
+char stats_file_path[100];
 
 void display_opponent_move(char move[30]){
     printf("\nYour opponent chose: \n\n");
@@ -25,7 +27,7 @@ void rockpaperscissors(){
     
     title("Rock-Paper-Scissors", 2);
     char options[][30] = {"ROCK", "PAPER", "SCISSORS"}, opponent_move[30], my_move[30];
-    int ch = create_menu_traditional(3, options, 2, "Enter your choice: "), winner;
+    int ch = create_menu_traditional(3, options, 2, "Enter your choice: ", title_pipe("Rock-Paper-Scissors")), winner;
     srand(time(0));
     int random_move = rand() % 3;
 
@@ -50,6 +52,7 @@ void rockpaperscissors(){
 
     if (confirm("\n\nPress 'y' to play again: ")) {
         rockpaperscissors();
+        fflush(stdin);
         return;
     }
 }

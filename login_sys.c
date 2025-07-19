@@ -15,7 +15,7 @@ void user_conf_page(){
     title("The Game Library", 2);
     char options[][30] = {"Log In", "Sign Up", "Edit Account", "Saved Accounts", "Exit"};
     int ch = 0;
-    ch = create_menu_traditional(5, options, 1, "Choose an option: ");
+    ch = create_menu_traditional(5, options, 2, "Choose an option: ", title_pipe("The Game Library"));
     
     if (ch == 0) login_page();
     else if (ch == 1) signup_page();
@@ -36,8 +36,8 @@ void signup_page(){
 
     title("Sign Up", 2);
 
-    char username[30], password[30], nusername[30], npassword[30];;
-    printf("Choose a username: ");
+    char username[100], password[100], nusername[100], npassword[100];;
+    printf("\nChoose a username: ");
     scanf("%s", username);
     fflush(stdin);
     printf("Choose a password: ");
@@ -90,8 +90,8 @@ void login_page(){
     FILE *fp;
     fp = fopen("data/credentials/creds.dat", "r");
     title("Log In", 2);
-    char username[30], password[30], nusername[30], npassword[30];
-    printf("Enter username: ");
+    char username[100], password[100], nusername[100], npassword[100];
+    printf("\nEnter username: ");
     scanf("%s", username);
     fflush(stdin);
     printf("Enter password: ");
@@ -120,16 +120,16 @@ void login_page(){
 }
 
 void edit_page() {
-    title("Account Editor", 2);
-    char options[][30] = {"Change Username", "Change Password", "Delete Account", "<- Go Back"};
-    int ch = create_menu_traditional(4, options, 1, "Enter a choice: ");
+    title("The Account Editor", 2);
+    char options[][30] = {"Edit Username", "Edit Password", "Delete Account", "<- Go Back"};
+    int ch = create_menu_traditional(4, options, 2, "Enter a choice: ", title_pipe("The Account Editor"));
 
     if (ch == 0) {
         title("Change Username", 2);
         FILE *fp, *np;
-        char username[30], password[30], nusername[30], npassword[30], prev_username[30];
+        char username[100], password[100], nusername[100], npassword[100], prev_username[100];
         int found = 0;
-        printf("Enter current username: ");
+        printf("\nEnter current username: ");
         scanf("%s", username);
         fflush(stdin);
         strcpy(prev_username, username);
@@ -186,10 +186,10 @@ void edit_page() {
     else if (ch == 1) {
         title("Change Password", 2);
         FILE *fp, *np;
-        char username[30], password[30], nusername[30], npassword[30];
+        char username[100], password[100], nusername[100], npassword[100];
         int found = 0;
 
-        printf("Enter username: ");
+        printf("\nEnter username: ");
         scanf("%s", username);
         fflush(stdin);
         printf("Enter current password: "); 
@@ -224,9 +224,9 @@ void edit_page() {
         title("Delete Account", 2);
         FILE *fp, *np;
 
-        char username[30], password[30], nusername[30], npassword[30], conf;
+        char username[100], password[100], nusername[100], npassword[100], conf;
         int deleted = 0, found = 0;
-        printf("Enter username: ");
+        printf("\nEnter username: ");
         scanf("%s", username);
         fflush(stdin);
         printf("Enter password: ");
