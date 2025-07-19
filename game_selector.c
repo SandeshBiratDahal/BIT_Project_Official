@@ -1,7 +1,7 @@
 
 void select_game_page(){
     title("Games List", 2);
-    char games[][30] = {"Hangman", "Tic-Tac-Toe", "Rock-Paper-Scissors", "Go Back"};
+    char games[][30] = {"Hangman", "Tic-Tac-Toe", "Rock-Paper-Scissors", "<- Go Back"};
     int ch = 0;
     ch = create_menu_traditional(4, games, 1, "Choose a game: ");
 

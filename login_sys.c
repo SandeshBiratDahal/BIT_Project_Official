@@ -40,7 +40,7 @@ void signup_page(){
     scanf("%s", username);
     fflush(stdin);
     printf("Choose a password: ");
-    scanf("%s", password);
+    scanf_password(password);
 
     for (int i = 0; username[i] != '\0'; i++) {
         if (username[i] == ',') {
@@ -89,7 +89,7 @@ void login_page(){
     scanf("%s", username);
     fflush(stdin);
     printf("Enter password: ");
-    scanf("%s", password);
+    scanf_password(password);
 
     int found = 0;
 
@@ -115,7 +115,7 @@ void login_page(){
 
 void edit_page() {
     title("Account Editor", 2);
-    char options[][30] = {"Change Username", "Change Password", "Delete Account", "Go Back"};
+    char options[][30] = {"Change Username", "Change Password", "Delete Account", "<- Go Back"};
     int ch = create_menu_traditional(4, options, 1, "Enter a choice: ");
 
     if (ch == 0) {
@@ -128,7 +128,7 @@ void edit_page() {
         fflush(stdin);
         strcpy(prev_username, username);
         printf("Enter password: ");
-        scanf("%s", password);
+        scanf_password(password);
 
         fp = fopen("data/credentials/creds.bin", "rb");
         while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
@@ -187,14 +187,14 @@ void edit_page() {
         scanf("%s", username);
         fflush(stdin);
         printf("Enter current password: "); 
-        scanf("%s", password);
+        scanf_password(password);
         fp = fopen("data/credentials/creds.bin", "rb");
         np = fopen("data/credentials/temp.bin", "wb");
 
         while ((fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF)) {
             if (strcmp(username, nusername) == 0 && strcmp(password, npassword) == 0) {
                 printf("Enter new password: ");
-                scanf("%s", password);
+                scanf_password(password);
                 fprintf(np, "%s,%s,", username, password);
                 found = 1;
             }
@@ -224,7 +224,7 @@ void edit_page() {
         scanf("%s", username);
         fflush(stdin);
         printf("Enter password: ");
-        scanf("%s", password);
+        scanf_password(password);
         
         fp = fopen("data/credentials/creds.bin", "rb");
         np = fopen("data/credentials/temp.bin", "wb");

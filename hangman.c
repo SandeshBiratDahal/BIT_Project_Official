@@ -15,7 +15,7 @@ void hangman(){
         "insects", "jacket", "jealous", "kitchen", "laundry", "lemonade", "library", "listen", "luggage", "manager",
         "message", "morning", "mountain", "muffins", "napkins", "notebook", "outside", "package", "painter", "parents",
         "passenger", "peaches", "pencil", "picture", "plastic", "popcorn", "printer", "problem", "process", "read",
-        "receipt", "remote", "rest", "run", "sandbox", "school", "screen", "section", "shampoo", "shelter",
+        "receipt", "remote", "rest", "rally", "sandbox", "school", "screen", "section", "shampoo", "shelter",
         "shop", "shout", "sidewalk", "sleep", "soccer", "station", "storage", "student", "subject", "sunrise",
         "teacher", "text", "traffic", "train", "travel", "truck", "vacuum", "wait", "walk", "weather"
     };
@@ -32,7 +32,7 @@ void hangman(){
         title("Hangman", 2);
         display_hangman(number_of_attempts);
         display(current_word, guessed_word, word_length, number_of_attempts);
-        fflush(stdin);
+        fflush(stdin); 
         printf("Enter a letter: ");
         scanf("%c", &current_letter);
 
@@ -120,6 +120,6 @@ void display_hangman(int number_of_attempts) {
     else if (number_of_attempts == 6) strcpy(body[4], "   / \\   ");
 
     int i;
-    for (i = 0; i < 5; i++) printf("%s\n", body[i]);
+    for (i = 0; i < 5; i++) printf("                                    %s\n", body[i]);
     printf("\n\n");
 }

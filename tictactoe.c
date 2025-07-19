@@ -13,7 +13,7 @@ char stats_file_path[100];
 
 void tictactoe(){
     title("Games List", 2);
-    char options[][30] = {"Vs Computer", "Vs Human", "Go Back"};
+    char options[][30] = {"Vs Computer", "Vs Human", "<- Go Back"};
     int ch = create_menu_traditional(3, options, 1, "Select an option: ");
 
     if (ch == 2) select_game_page();
@@ -248,6 +248,7 @@ int easy_ai(char board[], char play_as) {
 }
 
 int normal_ai(char board[], char play_as, int hard_ai) {
+    int corners[] = {0, 2, 6, 8};
     int winning_conditions[][3] = {
         {0, 1, 2},
         {0, 3, 6},
@@ -260,6 +261,22 @@ int normal_ai(char board[], char play_as, int hard_ai) {
         {3, 4, 5}
     }, best_move = -1, i, max_no_of_placed_move = 0, x_count = 0, o_count = 0, dot_count = 0, dot_pos = -1;
     char current_tile_move;
+
+    //special_case
+    int has_special_case = 0, last_x = -1, no_of_x = 0;
+    if (play_as == 'O') {
+        for (i = 0; i < 9; i++) {
+            if (board[i] == 'X' && i != 5) break;
+            else if(board[i] == 'X') {
+                last_x = i;
+            }
+        }
+
+        if (no_of_x == 1 && last_x == 4) {
+            srand(time(0));
+            return corners[rand() % 4];
+        } 
+    }
 
     for (i = 0; i < 9; i++) {
         x_count = 0; o_count = 0; dot_count = 0;
