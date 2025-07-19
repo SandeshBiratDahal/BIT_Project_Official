@@ -47,5 +47,9 @@ void rockpaperscissors(){
         printf("You win!!");
         edit_file(stats_file_path, 2, 1, 0);
     }
-    getch();
+
+    if (confirm("\n\nPress 'y' to play again: ")) {
+        rockpaperscissors();
+        return;
+    }
 }

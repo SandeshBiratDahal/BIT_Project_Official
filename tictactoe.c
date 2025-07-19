@@ -223,14 +223,14 @@ void display_winner(char board[], int win_id) {
     else winner = 'X';
 
     printf("\n%c is the winner!", winner);
-    getch();
+    if (confirm("\n\nPress 'y' to play again: ")) tictactoe();
 }
 
 void display_draw(char board[]) {
     title("Tic-Tac-Toe", 3);
     print_board(board);
     printf("\nIt's a draw!");
-    getch();
+    if (confirm("\n\nPress 'y' to play again: ")) tictactoe();
 }
 
 int easy_ai(char board[], char play_as) {

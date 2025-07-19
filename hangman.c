@@ -2,6 +2,9 @@
 void display(char current_word[], char guessed_word[], int word_length, int number_of_attempts);
 int check_letter(char word[], char letter, int word_length);
 int compare_words(char current_word[], char guessed_word[], int word_length);
+void display_hangman(int number_of_attempts);
+
+char stats_file_path[100];
 
 void hangman(){
     char words[][100] = {
@@ -23,9 +26,11 @@ void hangman(){
     char current_word[10], guessed_word[10] = "__________", current_letter;
     strcpy(current_word, words[current_word_index]);
 
-    int word_length = strlen(current_word), number_of_attempts = 5, successfully_guessed = 0, letter_in_word = 0, i;
+    int word_length = strlen(current_word), number_of_attempts = 6, successfully_guessed = 0, letter_in_word = 0, i;
 
     while (1){
+        title("Hangman", 2);
+        display_hangman(number_of_attempts);
         display(current_word, guessed_word, word_length, number_of_attempts);
         fflush(stdin);
         printf("Enter a letter: ");
@@ -48,18 +53,22 @@ void hangman(){
         }
 
         if (!number_of_attempts) {
+            title("Hangman", 2);
+            display_hangman(number_of_attempts);
             display(current_word, guessed_word, word_length, number_of_attempts);
             printf("You lose! The correct word was '%s'.", current_word);
-            getch();
             edit_file(stats_file_path, 1, 1, 0);
+            if (confirm("\n\nPress 'y' to play again: ")) hangman();
             break;
         }
 
         if (successfully_guessed) {
+            title("Hangman", 2);
+            display_hangman(number_of_attempts);
             display(current_word, guessed_word, word_length, number_of_attempts);
             printf("You successfully guessed the word!");
-            getch();
             edit_file(stats_file_path, 0, 1, 0);
+            if (confirm("\n\nPress 'y' to play again: ")) hangman();
             break;
         }
     }
@@ -67,7 +76,6 @@ void hangman(){
 }
 
 void display(char current_word[], char guessed_word[], int word_length, int number_of_attempts){
-    title("Hangman", 3);
     int i;
     for (i = 0; i < word_length; i++) printf("%c  ", guessed_word[i]);
     printf("\t\tAttempts Left: %d\n\n", number_of_attempts);
@@ -87,4 +95,31 @@ int compare_words(char current_word[], char guessed_word[], int word_length){
         if (current_word[i] != guessed_word[i]) return 0;
     }
     return 1;
+}
+
+void display_hangman(int number_of_attempts) {
+    number_of_attempts = 6 - number_of_attempts;
+    char body[][50] = {
+        "  -----",
+        "    |    ",
+        "         ",
+        "         ",
+        "         "
+    };
+
+    //head
+    if (number_of_attempts > 0) strcpy(body[2], "    O    ");
+
+    //chest and arms
+    if (number_of_attempts == 2) strcpy(body[3], "    |    ");
+    else if (number_of_attempts == 3) strcpy(body[3], "   /|   ");
+    else if (number_of_attempts > 3) strcpy(body[3], "   /|\\   ");
+
+    //legs
+    if (number_of_attempts == 5) strcpy(body[4], "   /     ");
+    else if (number_of_attempts == 6) strcpy(body[4], "   / \\   ");
+
+    int i;
+    for (i = 0; i < 5; i++) printf("%s\n", body[i]);
+    printf("\n\n");
 }

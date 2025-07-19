@@ -278,6 +278,9 @@ void view_accounts() {
         i++;
     }
     fclose(fp);
+
+    if (i == 1) printf("No any saved accounts! Select 'Sign Up' to create an account!");
+
     getch();
     fflush(stdin);
     user_conf_page();

@@ -19,6 +19,15 @@ int create_menu_traditional(int number_of_options, char options[][30], int spaci
 
 void title(char text[50], int spacing) {
     system("cls");
-    printf("----%s----", text);
+    printf("<=--%s--=>", text);
     for (int i = 0; i < spacing; i++) printf("\n");
+}
+
+int confirm(char query[50]) {
+    fflush(stdin);
+    printf("%s", query);
+    char choice;
+    scanf("%c", &choice);
+    if (choice == 'y' || choice == 'Y') return 1;
+    return 0;
 }
