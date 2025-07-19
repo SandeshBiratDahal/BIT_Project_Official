@@ -9,6 +9,7 @@ void signup_page();
 void edit_page();
 void stats_view_selector();
 void view_accounts();
+void fclose_secure(FILE *fp);
 
 void user_conf_page(){
     title("The Game Library", 2);
@@ -45,6 +46,8 @@ void signup_page(){
     for (int i = 0; username[i] != '\0'; i++) {
         if (username[i] == ',') {
             printf("\nUsername can not contain the character ','!");
+            fclose_secure(fp);
+            fclose_secure(np);
             getch();
             user_conf_page();
         }
@@ -53,6 +56,8 @@ void signup_page(){
     while (fscanf(np, "%30[^,],%30[^,],", nusername, npassword) != EOF){
         if (strcmp(nusername, username) == 0) {
             printf("\nUsername already exists!");
+            fclose_secure(fp);
+            fclose_secure(np);
             getch();
             user_conf_page();
             return;
@@ -72,9 +77,10 @@ void signup_page(){
         "0,0,0,0,0,0,0,0,0,0,0,0,0,0,"
     ); //Hangman win/lose, RockPaperScissors win/lose/draw, Tictactoe easy/normal/hard win/lose/draw
 
-    fclose(fp);
-
     printf("\nSuccessfully created a new account!!");
+    fclose_secure(fp);
+    fclose_secure(np);
+
     getch();
     system("cls");
     user_conf_page();
@@ -141,8 +147,9 @@ void edit_page() {
                 while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
                     if (strcmp(username, nusername) == 0) {
                         printf("Username already exists!");
+                        fclose_secure(fp);
+                        fclose_secure(np);
                         getch();
-                        fclose(fp);
                         user_conf_page();
                         return;
                     }
@@ -154,16 +161,15 @@ void edit_page() {
                         fprintf(np, "%s,%s,", nusername, npassword);
                     }
                 }
-                fprintf(np, "%s,%s,", username, password);
-                fclose(np);
-                
+                fprintf(np, "%s,%s,", username, password);                
                 printf("\nSuccessfully changed the username from '%s' to '%s'!", prev_username, username);
                 found = 1;
                 break;
             }
         }
 
-        fclose(fp);
+        fclose_secure(fp);
+        fclose_secure(np);
 
         if (!found) printf("\nIncorrect username or password!");
         else {
@@ -203,8 +209,8 @@ void edit_page() {
             }
         }
 
-        fclose(fp);
-        fclose(np);
+        fclose_secure(fp);
+        fclose_secure(np);
 
         if (!found) printf("\nIncorrect username or password!");
         else {
@@ -248,8 +254,8 @@ void edit_page() {
             }
         }
 
-        fclose(np);
-        fclose(fp);
+        fclose_secure(fp);
+        fclose_secure(np);
 
         remove("data/credentials/creds.dat");
         rename("data/credentials/temp.dat", "data/credentials/creds.dat");
@@ -263,6 +269,7 @@ void edit_page() {
         if (!found) printf("\nIncorrect username or password!");
     }
     else if (ch == 3) user_conf_page();
+
     getch();
     user_conf_page();
 }
@@ -284,4 +291,8 @@ void view_accounts() {
     getch();
     fflush(stdin);
     user_conf_page();
+}
+
+void fclose_secure(FILE *fp) {
+    if (fp) fclose(fp);
 }

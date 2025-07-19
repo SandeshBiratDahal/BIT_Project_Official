@@ -39,8 +39,10 @@ void scanf_password(char* password) {
     while (1) {
         c = getch();
 
-        if (c == 13) break;
-
+        if (c == 13) 
+        {
+            if (i > 0) break;
+        }
         //password show/hide
         else if (c == 27) {
             if (i > 0){
