@@ -1,3 +1,4 @@
+#include<stdio.h>
 int create_menu_traditional(
     int number_of_options, char options[][30], int spacing, char query[50]
 );
@@ -40,6 +41,7 @@ void scanf_password(char* password) {
 
         if (c == 13) break;
 
+        //password show/hide
         else if (c == 27) {
             if (i > 0){
                 if (show == 0){

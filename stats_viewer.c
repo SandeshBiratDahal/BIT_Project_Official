@@ -24,8 +24,8 @@ void view_stats() {
     int win = fetch(stats_file_path, 0), lose = fetch(stats_file_path, 1), draw = 0;
     individual_games_played = win + lose;
     printf("--Hangman--\n-----------\n");
-    if (individual_games_played) printf("Total: %d\t  Win: %d\t  Lose: %d\n\n\n\n", win + lose, win, lose);
-    else printf("No data available!\n\n\n\n");
+    if (individual_games_played) printf("Total: %d\t  Win: %d\t  Lose: %d\n\n", win + lose, win, lose);
+    else printf("No data available!\n\n");
     total_games_played += win + lose;
 
     //Rock Paper Scissors
@@ -34,8 +34,8 @@ void view_stats() {
     draw = fetch(stats_file_path, 4);
     individual_games_played = win + lose + draw;
     printf("--Rock-Paper-Scissors--\n-----------------------\n");
-    if (individual_games_played) printf("Total: %d\t  Win: %d\t  Lose: %d\t  Draw: %d\n\n\n\n", win + lose + draw, win, lose, draw);
-    else printf("No data available!\n\n\n\n");
+    if (individual_games_played) printf("Total: %d\t  Win: %d\t  Lose: %d\t  Draw: %d\n\n", win + lose + draw, win, lose, draw);
+    else printf("No data available!\n\n");
     total_games_played += win + lose + draw;
 
     //Tic Tac Toe

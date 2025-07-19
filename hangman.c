@@ -29,19 +29,33 @@ void hangman(){
     int word_length = strlen(current_word), number_of_attempts = 6, successfully_guessed = 0, letter_in_word = 0, i;
 
     while (1){
-        title("Hangman", 2);
+        current_letter = 10;
+        title("Hangman", 1);
         display_hangman(number_of_attempts);
         display(current_word, guessed_word, word_length, number_of_attempts);
-        fflush(stdin); 
-        printf("Enter a letter: ");
-        scanf("%c", &current_letter);
+        while (current_letter == 10){
+            fflush(stdin); 
+            printf("Enter a letter: ");
+            scanf("%c", &current_letter);
 
+            if (current_letter >= 65 && current_letter <= 90) {
+                current_letter += 32;
+            }
+            else if (current_letter >= 97 && current_letter <= 122) {}
+            else {
+                current_letter = 10;
+            }
+        }
         letter_in_word = check_letter(current_word, current_letter, word_length);
 
         if (!letter_in_word) {
+            number_of_attempts--;
+            title("Hangman", 1);
+            display_hangman(number_of_attempts);
+            display(current_word, guessed_word, word_length, number_of_attempts);
+            printf("Enter a letter: %c\n", current_letter);
             printf("Letter not in the word!!");
             getch();
-            number_of_attempts--;
         }
         else {
             for (i = 0; i < word_length; i++){
@@ -53,7 +67,7 @@ void hangman(){
         }
 
         if (!number_of_attempts) {
-            title("Hangman", 2);
+            title("Hangman", 1);
             display_hangman(number_of_attempts);
             display(current_word, guessed_word, word_length, number_of_attempts);
             printf("You lose! The correct word was '%s'.", current_word);
@@ -63,7 +77,7 @@ void hangman(){
         }
 
         if (successfully_guessed) {
-            title("Hangman", 2);
+            title("Hangman", 1);
             display_hangman(number_of_attempts);
             display(current_word, guessed_word, word_length, number_of_attempts);
             printf("You successfully guessed the word!");
@@ -77,8 +91,9 @@ void hangman(){
 
 void display(char current_word[], char guessed_word[], int word_length, int number_of_attempts){
     int i;
+    printf("\t\t\t\tAttempts Left: %d\n", number_of_attempts);
     for (i = 0; i < word_length; i++) printf("%c  ", guessed_word[i]);
-    printf("\t\tAttempts Left: %d\n\n", number_of_attempts);
+    printf("\n\n");
 }
 
 int check_letter(char word[], char letter, int word_length){

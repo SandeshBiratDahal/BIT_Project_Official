@@ -8,6 +8,7 @@ int easy_ai(char board[], char play_as);
 int normal_ai(char board[], char play_as, int hard_ai);
 void edit_records(int difficulty, int status);
 void select_game_page();
+void think(char board[], int time);
 
 char stats_file_path[100];
 
@@ -92,6 +93,7 @@ void tictactoe(){
                         return;
                     }
 
+                    think(board, 1000);
                     opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
                     turn++;
@@ -108,6 +110,7 @@ void tictactoe(){
                     }
                 }
                 else {
+                    think(board, 1000);
                     opp_move = get_ai_input(board, difficulty, opp_symbol);
                     board[opp_move] = opp_symbol;
                     turn++;
@@ -264,18 +267,17 @@ int normal_ai(char board[], char play_as, int hard_ai) {
 
     //special_case
     int has_special_case = 0, last_x = -1, no_of_x = 0;
-    if (play_as == 'O') {
+    if (play_as == 'O' && hard_ai) {
         for (i = 0; i < 9; i++) {
-            if (board[i] == 'X' && i != 5) break;
-            else if(board[i] == 'X') {
+            if (board[i] == 'X') {
                 last_x = i;
+                no_of_x++;
             }
         }
-
         if (no_of_x == 1 && last_x == 4) {
             srand(time(0));
             return corners[rand() % 4];
-        } 
+        }   
     }
 
     for (i = 0; i < 9; i++) {
@@ -320,4 +322,11 @@ int normal_ai(char board[], char play_as, int hard_ai) {
     }
     if (best_move < 0) return easy_ai(board, play_as);
     return best_move;
+}
+
+void think(char board[], int time) {
+    title("Tic-Tac-Toe", 3);
+    print_board(board);
+    printf("\nThinking...");
+    Sleep(time);
 }
