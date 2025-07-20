@@ -121,11 +121,11 @@ void login_page(){
 
 void edit_page() {
     title("The Account Editor", 2);
-    char options[][30] = {"Edit Username", "Edit Password", "Delete Account", "<- Go Back"};
-    int ch = create_menu_traditional(4, options, 2, "Enter a choice: ", title_pipe("The Account Editor"));
+    char options[][30] = {"Edit Username", "Edit Password", "<- Go Back"};
+    int ch = create_menu_traditional(3, options, 2, "Enter a choice: ", title_pipe("The Account Editor"));
 
     if (ch == 0) {
-        title("Change Username", 2);
+        title("Edit Username", 2);
         FILE *fp, *np;
         char username[100], password[100], nusername[100], npassword[100], prev_username[100];
         int found = 0;
@@ -137,6 +137,7 @@ void edit_page() {
         scanf_password(password);
 
         fp = fopen("data/credentials/creds.dat", "r");
+        fseek(fp, 0, SEEK_SET);
         while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
             if (strcmp(nusername, username) == 0 && strcmp(password, npassword) == 0) {
                 fflush(stdin);
@@ -147,9 +148,8 @@ void edit_page() {
                 while (fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF) {
                     if (strcmp(username, nusername) == 0) {
                         printf("Username already exists!");
-                        fclose_secure(fp);
-                        fclose_secure(np);
                         getch();
+                        fclose(fp);
                         user_conf_page();
                         return;
                     }
@@ -164,12 +164,12 @@ void edit_page() {
                 fprintf(np, "%s,%s,", username, password);                
                 printf("\nSuccessfully changed the username from '%s' to '%s'!", prev_username, username);
                 found = 1;
+                fclose(np);
                 break;
             }
         }
 
-        fclose_secure(fp);
-        fclose_secure(np);
+        fclose(fp);
 
         if (!found) printf("\nIncorrect username or password!");
         else {
@@ -196,6 +196,7 @@ void edit_page() {
         scanf_password(password);
         fp = fopen("data/credentials/creds.dat", "r");
         np = fopen("data/credentials/temp.dat", "w");
+        fseek(fp, 0, SEEK_SET);
 
         while ((fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF)) {
             if (strcmp(username, nusername) == 0 && strcmp(password, npassword) == 0) {
@@ -220,7 +221,10 @@ void edit_page() {
         }
         
     }
-    else if (ch == 2) {
+    
+    else if (ch == 2) user_conf_page();
+
+    else {
         title("Delete Account", 2);
         FILE *fp, *np;
 
@@ -234,6 +238,7 @@ void edit_page() {
         
         fp = fopen("data/credentials/creds.dat", "r");
         np = fopen("data/credentials/temp.dat", "w");
+        fseek(fp, 0, SEEK_SET);
 
         while ((fscanf(fp, "%30[^,],%30[^,],", nusername, npassword) != EOF)) {
             if (strcmp(nusername, username) == 0 && strcmp(npassword, password) == 0) {
@@ -268,7 +273,6 @@ void edit_page() {
         }
         if (!found) printf("\nIncorrect username or password!");
     }
-    else if (ch == 3) user_conf_page();
 
     getch();
     user_conf_page();
