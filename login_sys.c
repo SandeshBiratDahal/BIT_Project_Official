@@ -121,7 +121,7 @@ void login_page(){
 
 void edit_page() {
     title("The Account Editor", 2);
-    char options[][30] = {"Edit Username", "Edit Password", "<- Go Back"};
+    char options[][30] = {"Edit Username", "Edit Password", "Delete Account", "<- Go Back"};
     int ch = create_menu_traditional(3, options, 2, "Enter a choice: ", title_pipe("The Account Editor"));
 
     if (ch == 0) {
@@ -222,9 +222,9 @@ void edit_page() {
         
     }
     
-    else if (ch == 2) user_conf_page();
+    else if (ch == 3) user_conf_page();
 
-    else {
+    else if (ch == 2) {
         title("Delete Account", 2);
         FILE *fp, *np;
 
